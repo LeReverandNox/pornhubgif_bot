@@ -8,4 +8,4 @@ class Router(object):
         self._controllers = controllers
 
     def register_routes(self):
-        self._app.route('/', method='GET', callback=self._controllers["botController"].helloworld)
+        self._app.route('/webhook', method='POST', callback=self._controllers["botController"].post_webhook_action)

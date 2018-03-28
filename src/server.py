@@ -16,7 +16,7 @@ from services.BotService import BotService
 
 app = Bottle()
 
-botService = BotService(PornHubService(), TelegramService(os.getenv('TELEGRAM_API_TOKEN')))
+botService = BotService(TelegramService(os.getenv('TELEGRAM_API_TOKEN')), PornHubService())
 
 controllers = {
     "botController": BotController(botService)
