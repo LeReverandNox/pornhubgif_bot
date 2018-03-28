@@ -17,11 +17,11 @@ class BotController(object):
             response.status = 500
             return {'message': 'Please send me something in the payload'}
 
-        print('****')
+        print('**** PAYLOAD ***')
         print(payload)
         print('****\n\n')
         if 'inline_query' in payload:
-            print('C\'est une inline query.')
+            self._botService.handle_inline_query(payload['inline_query'])
         if 'message' in payload:
             self._botService.handle_message(payload['message'])
         if 'chosen_inline_result' in payload:

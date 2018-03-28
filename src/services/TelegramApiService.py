@@ -16,3 +16,5 @@ class TelegramApiService(object):
         print(res.text)
         return True
 
+    def answer_inline_query(self, target, results):
+        print('On va envoyer "{}" a {}'.format(results, target))

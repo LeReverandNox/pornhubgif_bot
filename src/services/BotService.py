@@ -8,5 +8,8 @@ class BotService(object):
         self._telegramApiService.send_message(message['from']['id'], 'Hello, {}!'.format(message['from']['first_name']))
         return True
 
-        self._telegramService.send_message(message['from']['id'], 'Hello, {}!'.format(message['from']['first_name']))
+    def handle_inline_query(self, inline_query):
+        print('On handle un inline_query\n', inline_query, '\n\n')
+        gifs = self._pornHubService.search_gifs(inline_query['query'])
+        self._telegramApiService.answer_inline_query(inline_query['from']['id'], [])
         return True
