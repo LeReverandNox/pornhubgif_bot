@@ -1,9 +1,28 @@
 import os, sys
-from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
-
 if sys.version_info < (3, 6):
-    raise "Please use Python 3.6 to run this bot."
+    exit("[ERR]: Please use Python 3.6 to run this bot.")
 
-print("Welcome the the PornHub Gif Bot !")
-exit()
+from dotenv import load_dotenv, find_dotenv; load_dotenv(find_dotenv())
+# App
+from bottle import Bottle
+# Router
+from router import Router
+# Controllers
+from controllers.BotController import *
+# Services
+from services.PornHubService import PornHubService
+from services.TelegramApiService import TelegramApiService
+from services.TelegramUtilsService import TelegramUtilsService
+from services.BotService import BotService
+
+app = Bottle()
+
+botService = BotService(TelegramApiService(os.getenv('TELEGRAM_API_TOKEN')), TelegramUtilsService(), PornHubService())
+
+controllers = {
+    "botController": BotController(botService)
+}
+
+router = Router(app, controllers).register_routes()
+
+app.run(host="localhost", port="8080", reloader=True)
