@@ -9,6 +9,7 @@ livereload==2.5.1
 mccabe==0.6.1
 pylint==1.8.3
 python-dotenv==0.8.2
+requests==2.18.4
 six==1.11.0
 tornado==5.0.1
 urllib3==1.22
