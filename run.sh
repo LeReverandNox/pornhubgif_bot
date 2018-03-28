@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ $ENVIRONMENT == "prod" ]; then
-    exec python /app/bot.py
+    exec python /app/server.py
 elif [ $ENVIRONMENT == "dev" ]; then
-    exec python /app/bot.py
+    exec python /app/server.py
 fi
