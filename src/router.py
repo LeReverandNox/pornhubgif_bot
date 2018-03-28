@@ -8,5 +8,4 @@ class Router(object):
         self._controllers = controllers
 
     def register_routes(self):
-        print("On va register les routes")
-        self._app.route('/', method='GET', callback=self._controllers["BotController"].helloworld)
+        self._app.route('/', method='GET', callback=self._controllers["botController"].helloworld)

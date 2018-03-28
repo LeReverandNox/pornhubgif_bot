@@ -1,7 +1,8 @@
+from bottle import request, response
+
 class BotController(object):
-    def __init__(self, BotService):
-        self._BotService = BotService
-        print("Je suis le BotController")
+    def __init__(self, botService):
+        self._botService = botService
 
     def helloworld(self):
-        return 'Hello, World!'
+        return {'message': 'Hello, World !'}
