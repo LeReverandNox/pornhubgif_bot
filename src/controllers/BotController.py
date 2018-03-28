@@ -5,7 +5,7 @@ class BotController(object):
         self._botService = botService
 
     def post_webhook_action(self):
-        print('On recoit un hit sur POST /webhook')
+        # print('On recoit un hit sur POST /webhook')
         try:
             payload = request.json
         except Exception as e:
@@ -17,14 +17,12 @@ class BotController(object):
             response.status = 500
             return {'message': 'Please send me something in the payload'}
 
-        print('**** PAYLOAD ***')
-        print(payload)
-        print('****\n\n')
+        # print('**** PAYLOAD ***')
+        # print(payload)
+        # print('****\n\n')
         if 'inline_query' in payload:
             self._botService.handle_inline_query(payload['inline_query'])
         if 'message' in payload:
             self._botService.handle_message(payload['message'])
-        if 'chosen_inline_result' in payload:
-            print('C\'est un choix de resultat inline')
 
-        return payload
+        return ''
