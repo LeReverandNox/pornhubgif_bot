@@ -11,12 +11,12 @@ from router import Router
 from controllers.BotController import *
 # Services
 from services.PornHubService import PornHubService
-from services.TelegramService import TelegramService
+from services.TelegramApiService import TelegramApiService
 from services.BotService import BotService
 
 app = Bottle()
 
-botService = BotService(TelegramService(os.getenv('TELEGRAM_API_TOKEN')), PornHubService())
+botService = BotService(TelegramApiService(os.getenv('TELEGRAM_API_TOKEN')), PornHubService())
 
 controllers = {
     "botController": BotController(botService)
