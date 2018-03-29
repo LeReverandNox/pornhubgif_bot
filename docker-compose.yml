@@ -2,12 +2,9 @@ version: '2'
 services:
   bot:
     build: .
-    # restart: unless-stopped
-    volumes:
-      # DEV PURPOSE ONLY
-      - ./src:/app
+    restart: unless-stopped
     environment:
       - TELEGRAM_API_TOKEN=$TELEGRAM_API_TOKEN
       - ENVIRONMENT=$ENVIRONMENT
     ports:
-      - $BOT_PORT:80/tcp
+      - $BOT_PORT:8080/tcp
