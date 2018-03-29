@@ -10,7 +10,11 @@ class PornHubService(object):
         if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Searching GIFs on Pornhub for query={} and page={}'.format(query, page))
 
         try:
-            res = r.get(self._url + '/gifs/search?search={}&page={}'.format(query, page))
+            if query:
+                res = r.get(self._url + '/gifs/search?search={}&page={}'.format(query, page))
+            else:
+                res = r.get(self._url + '/gifs?page={}'.format(page))
+
             body = res.content
             soup = bs(body, 'html.parser')
             video_elements = soup.find_all('video', {'class': 'gifVideo'})
@@ -19,7 +23,7 @@ class PornHubService(object):
             video_urls = [url for url in map(lambda element: element.attrs.get('data-mp4'), video_elements)]
             gif_urls = [url for url in map(lambda url: url.replace('.mp4', '.gif'), video_urls)]
 
-            gifs = [{'gif_url': gif_urls[i], 'poster_url': poster_urls[i]} for i in range(len(poster_urls))]
+            gifs = [{'gif_url': gif_urls[i], 'video_url': video_urls[i], 'poster_url': poster_urls[i]} for i in range(len(poster_urls))]
 
             if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Found {} GIFs'.format(len(gifs)))
             return (gifs, page + 1)
