@@ -1,4 +1,4 @@
-import os
+import os, sys
 import random, string
 
 class TelegramUtilsService(object):
@@ -6,7 +6,7 @@ class TelegramUtilsService(object):
         pass
 
     def prepare_result_gifs(self, gifs):
-        if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Preparing {} GIFs for sending'.format(len(gifs)))
+        if os.getenv('ENVIRONMENT') == 'dev': sys.stdout.write('[DEBUG] Preparing {} GIFs for sending\n'.format(len(gifs)))
 
         results_gifs = []
         for gif in gifs:
