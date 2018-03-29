@@ -8,7 +8,7 @@ from bottle import Bottle
 # Router
 from router import Router
 # Controllers
-from controllers.BotController import *
+from controllers.BotController import BotController
 # Services
 from services.PornHubService import PornHubService
 from services.TelegramApiService import TelegramApiService
@@ -23,6 +23,6 @@ controllers = {
     "botController": BotController(botService)
 }
 
-router = Router(app, controllers).register_routes()
+Router(app, controllers, os.getenv('TELEGRAM_API_TOKEN')).register_routes()
 
-app.run(host="localhost", port="8080", reloader=True)
+app.run(host="0.0.0.0", port="8080", reloader=True if os.getenv('ENVIRONMENT') == 'dev' else False)

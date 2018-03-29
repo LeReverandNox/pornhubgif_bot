@@ -1,3 +1,4 @@
+import os
 import requests as r
 from bs4 import BeautifulSoup as bs
 
@@ -6,7 +7,8 @@ class PornHubService(object):
         self._url = "https://pornhub.com"
 
     def search_gifs(self, query, page):
-        # print('On va rechercher des gifs pour {}, page {}'.format(query, page))
+        if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Searching GIFs on Pornhub for query={} and page={}'.format(query, page))
+
         try:
             res = r.get(self._url + '/gifs/search?search={}&page={}'.format(query, page))
             body = res.content
@@ -18,8 +20,10 @@ class PornHubService(object):
             gif_urls = [url for url in map(lambda url: url.replace('.mp4', '.gif'), video_urls)]
 
             gifs = [{'gif_url': gif_urls[i], 'poster_url': poster_urls[i]} for i in range(len(poster_urls))]
+
+            if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Found {} GIFs'.format(len(gifs)))
             return (gifs, page + 1)
 
         except Exception as e:
-            print("[ERR]: Something went wrong during GIFs search : \n{}".format(e))
+            print("[ERR] Something went wrong during GIFs search : \n{}".format(e))
             return ([], 0)

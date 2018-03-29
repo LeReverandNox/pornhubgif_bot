@@ -1,3 +1,4 @@
+import os
 from bottle import request, response
 
 class BotController(object):
@@ -5,11 +6,9 @@ class BotController(object):
         self._botService = botService
 
     def post_webhook_action(self):
-        # print('On recoit un hit sur POST /webhook')
         try:
             payload = request.json
         except Exception as e:
-            print('[ERR] Non-JSON payload received : \n{}'.format(e))
             response.status = 500
             return {'message': 'Please send me a JSON payload'}
 
@@ -17,12 +16,11 @@ class BotController(object):
             response.status = 500
             return {'message': 'Please send me something in the payload'}
 
-        # print('**** PAYLOAD ***')
-        # print(payload)
-        # print('****\n\n')
+        if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Incoming payload : \n{}'.format(payload))
+
         if 'inline_query' in payload:
             self._botService.handle_inline_query(payload['inline_query'])
-        if 'message' in payload:
+        elif 'message' in payload:
             self._botService.handle_message(payload['message'])
 
         return ''
