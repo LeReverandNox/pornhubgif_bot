@@ -23,6 +23,6 @@ controllers = {
     "botController": BotController(botService)
 }
 
-Router(app, controllers).register_routes()
+Router(app, controllers, os.getenv('TELEGRAM_API_TOKEN')).register_routes()
 
 app.run(host="localhost", port="8080", reloader=True if os.getenv('ENVIRONMENT') == 'dev' else False)
