@@ -10,7 +10,11 @@ class PornHubService(object):
         if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Searching GIFs on Pornhub for query={} and page={}'.format(query, page))
 
         try:
+            if query:
             res = r.get(self._url + '/gifs/search?search={}&page={}'.format(query, page))
+            else:
+                res = r.get(self._url + '/gifs?page={}'.format(page))
+
             body = res.content
             soup = bs(body, 'html.parser')
             video_elements = soup.find_all('video', {'class': 'gifVideo'})
