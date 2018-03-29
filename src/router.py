@@ -1,9 +1,5 @@
-
-from typing import *
-import bottle
-
 class Router(object):
-    def __init__(self, app: bottle.Bottle, controllers: Dict):
+    def __init__(self, app, controllers):
         self._app = app
         self._controllers = controllers
 
