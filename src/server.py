@@ -25,4 +25,4 @@ controllers = {
 
 Router(app, controllers, os.getenv('TELEGRAM_API_TOKEN')).register_routes()
 
-app.run(host="localhost", port="8080", reloader=True if os.getenv('ENVIRONMENT') == 'dev' else False)
+app.run(host="0.0.0.0", port="8080", reloader=True if os.getenv('ENVIRONMENT') == 'dev' else False)
