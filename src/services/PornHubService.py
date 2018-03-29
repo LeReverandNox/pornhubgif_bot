@@ -7,7 +7,7 @@ class PornHubService(object):
         self._url = "https://pornhub.com"
 
     def search_gifs(self, query, page):
-        if os.getenv('ENVIRONMENT') == 'dev': sys.stdout.write('[DEBUG] Searching GIFs on Pornhub for query={} and page={}\n.format(query, page))
+        if os.getenv('ENVIRONMENT') == 'dev': sys.stdout.write('[DEBUG] Searching GIFs on Pornhub for query={} and page={}\n'.format(query, page))
 
         try:
             if query:
