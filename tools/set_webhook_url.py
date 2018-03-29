@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 import requests as r
-import os, argparse
+import os, sys, argparse
 from dotenv import load_dotenv, find_dotenv; load_dotenv(find_dotenv())
 
 parser = argparse.ArgumentParser(description='Set the webhook URL of your bot.')
@@ -18,4 +18,4 @@ payload = {
     'url': args.webhook_url
 }
 res = r.post(TELEGRAM_API_URL + '/setWebhook', json=payload)
-print('[{}] {}'.format(res.status_code, res.json()['description']))
+sys.stdout.write('[{}] {}\n'.format(res.status_code, res.json()['description']))

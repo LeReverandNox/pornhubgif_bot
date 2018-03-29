@@ -1,4 +1,4 @@
-import os
+import os, sys
 from bottle import request, response
 
 class BotController(object):
@@ -16,7 +16,7 @@ class BotController(object):
             response.status = 500
             return {'message': 'Please send me something in the payload'}
 
-        if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Incoming payload : \n{}'.format(payload))
+        if os.getenv('ENVIRONMENT') == 'dev': sys.stdout.write('[DEBUG] Incoming payload : \n{}\n'.format(payload))
 
         if 'inline_query' in payload:
             self._botService.handle_inline_query(payload['inline_query'])

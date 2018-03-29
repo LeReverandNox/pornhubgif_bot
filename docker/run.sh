@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ $ENVIRONMENT == "prod" ]; then
-    exec python /app/server.py
+    exec gunicorn -b 0.0.0.0:8080 -w 3 -k gevent --log-file - --log-level debug --access-logfile - server:app
 elif [ $ENVIRONMENT == "dev" ]; then
-    exec python /app/server.py
+    exec gunicorn -b 0.0.0.0:8080 -w 3 -k gevent --log-file - --log-level debug --access-logfile - server:app
 fi
