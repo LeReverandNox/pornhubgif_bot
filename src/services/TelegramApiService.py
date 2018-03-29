@@ -1,3 +1,4 @@
+import os
 import requests as r
 
 class TelegramApiService(object):
@@ -6,17 +7,20 @@ class TelegramApiService(object):
         self._api_url = 'https://api.telegram.org/bot{}'.format(self._api_token)
 
     def send_message(self, target, text):
-        # print('On va envoyer "{}" a {}'.format(text, target))
+        if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Sending message for chat_id={} and text={}'.format(target, text))
+
         payload = {
             'chat_id': target,
             'text': text
         }
 
         res = r.post(self._api_url + '/sendMessage', json=payload)
-        # print(res.text)
+        if res.status_code != 200:
+            print("[WARN] Status-code {} on POST /sendMessage : \n{}".format(res.status_code, res.text))
 
     def answer_inline_query(self, target, results, next_offset):
-        # print('On va envoyer "{}" a {}'.format([], target))
+        if os.getenv('ENVIRONMENT') == 'dev': print('[DEBUG] Sending answer for inline query for inline_query__id={} and next_offset={}'.format(target, next_offset))
+
         payload = {
             'inline_query_id': target,
             'results': results,
@@ -24,4 +28,5 @@ class TelegramApiService(object):
         }
 
         res = r.post(self._api_url + '/answerInlineQuery', json=payload)
-        # print(res.text)
+        if res.status_code != 200:
+            print("[WARN] Status-code {} on POST /answerInlineQuery : \n{}".format(res.status_code, res.text))
