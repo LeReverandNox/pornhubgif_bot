@@ -14,8 +14,12 @@ from services.PornHubService import PornHubService
 from services.TelegramApiService import TelegramApiService
 from services.TelegramUtilsService import TelegramUtilsService
 from services.BotService import BotService
+# PluginManager
+from PluginManager import PluginManager
 
 app = Bottle()
+
+PluginManager(app).register_plugins().register_hooks()
 
 botService = BotService(TelegramApiService(os.getenv('TELEGRAM_API_TOKEN')), TelegramUtilsService(), PornHubService())
 
@@ -26,4 +30,4 @@ controllers = {
 Router(app, controllers, os.getenv('TELEGRAM_API_TOKEN')).register_routes()
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port="8080", reloader=True if os.getenv('ENVIRONMENT') == 'dev' else False)
+    app.run(host="0.0.0.0", port="8080", quiet=True, reloader=True if os.getenv('ENVIRONMENT') == 'dev' else False)
