@@ -6,7 +6,7 @@ from dotenv import load_dotenv, find_dotenv; load_dotenv(find_dotenv())
 # App
 from bottle import Bottle
 # Router
-from router import Router
+from Router import Router
 # Controllers
 from controllers.BotController import BotController
 # Services
