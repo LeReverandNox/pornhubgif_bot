@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pornhubgif-bot-deployment
+  namespace: pornhubgif-bot
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: pornhubgif-bot
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: pornhubgif-bot
+        image: lereverandnox/pornhubgif_bot
+        imagePullPolicy: IfNotPresent
+        stdin: true
+        tty: true
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+          name: phgb-http
+        env:
+        - name: ENVIRONMENT
+          valueFrom:
+            configMapKeyRef:
+              name: pornhubgif-bot-config
+              key: ENVIRONMENT
+        - name: TELEGRAM_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: pornhubgif-bot-secret
+              key: TELEGRAM_API_TOKEN
+        livenessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 2
+          successThreshold: 1
+          tcpSocket:
+            port: 8080
+          timeoutSeconds: 2
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 2
+          successThreshold: 1
+          tcpSocket:
+            port: 8080
+          timeoutSeconds: 2

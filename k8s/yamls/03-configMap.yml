@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pornhubgif-bot-config
+  namespace: pornhubgif-bot
+data:
+  ENVIRONMENT: prod

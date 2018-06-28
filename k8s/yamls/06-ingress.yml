@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pornhubgif-bot-ingress
+  namespace: pornhubgif-bot
+spec:
+  rules:
+  - host: pornhubgif-bot.rodolphe-laidet.com
+    http:
+      paths:
+      - backend:
+          serviceName: pornhubgif-bot-service
+          servicePort: 8080
+        path: /
+  tls:
+  - hosts:
+    - pornhubgif-bot.rodolphe-laidet.com
+    secretName: pornhubgif-bot-rodolphe-laidet-com-tls

@@ -1,6 +1,7 @@
 .DS_Store
 .vscode/
 
+k8s/yamls/.00-secret.yml
 .env
 __pycache__/
 *.pyc
