@@ -21,8 +21,10 @@ six = "==1.11.0"
 tornado = "==5.0.1"
 "urllib3" = "==1.22"
 wrapt = "==1.10.11"
+aiohttp = "*"
+asyncio = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.7"
+python_version = "3.6"

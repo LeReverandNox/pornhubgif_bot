@@ -1,5 +1,7 @@
 import os, sys
 import requests as r
+from aiohttp import ClientSession
+import asyncio
 from bs4 import BeautifulSoup as bs
 
 class PornHubService(object):
@@ -23,7 +25,11 @@ class PornHubService(object):
             video_urls = [url for url in map(lambda element: element.video.attrs.get('data-mp4'), anchor_elements)]
             gif_urls = [url for url in map(lambda url: url.replace('.mp4', '.gif'), video_urls)]
             page_urls = [url for url in map(lambda element: element.attrs.get('href'), anchor_elements)]
-            source_video_urls = [self.get_gif_source_video_url(url) for url in page_urls]
+
+            loop = asyncio.get_event_loop()
+            future = asyncio.ensure_future(self.get_gif_source_video_urls(page_urls))
+            loop.run_until_complete(future)
+            source_video_urls = future.result()
 
             gifs = [{'gif_url': gif_urls[i], 'video_url': video_urls[i], 'poster_url': poster_urls[i], 'source_video_url': source_video_urls[i]} for i in range(len(poster_urls))]
 
@@ -34,21 +40,28 @@ class PornHubService(object):
             sys.stderr.write("[ERR] Something went wrong during GIFs search : \n{}\n".format(e))
             return ([], 0)
 
-
-    def get_gif_source_video_url(self, gif_url):
+    async def get_gif_source_video_url(self, session, gif_url):
         try:
-            res = r.get(self._url + gif_url)
+            async with session.get(self._url + gif_url) as response:
+                body = await response.read()
+                soup = bs(body, 'html.parser')
 
-            body = res.content
-            soup = bs(body, 'html.parser')
+                source_video_element = soup.select('.sourceTagDiv .bottomMargin a')[0]
+                source_video_url = source_video_element.attrs.get('href')
 
-            source_video_element = soup.select('.sourceTagDiv .bottomMargin a')[0]
-            source_video_url = source_video_element.attrs.get('href')
-
-            complete_video_url = self._url + source_video_url
-            return complete_video_url
-            # raise Exception('got video !!!! {}'.format(complete_video_url))
+                complete_video_url = self._url + source_video_url
+                return complete_video_url
         except Exception as e:
-            sys.stderr.write("[ERR] Something went wrong during GIFs video obtention : \n{}\n".format(e))
+            sys.stderr.write("[ERR] Something went wrong during GIFs video obtention for {} : \n{}\n".format(gif_url, e))
             return ""
-            # raise Exception('e')
+
+    async def get_gif_source_video_urls(self, gif_urls):
+        tasks = []
+
+        async with ClientSession() as session:
+            for url in gif_urls:
+                task = asyncio.ensure_future(self.get_gif_source_video_url(session, url))
+                tasks.append(task)
+
+            responses = await asyncio.gather(*tasks)
+            return responses
