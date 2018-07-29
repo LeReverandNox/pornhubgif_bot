@@ -15,6 +15,7 @@ class TelegramUtilsService(object):
                 'id': ''.join([random.choice(string.ascii_letters) for _ in range(64)]),
                 'gif_url': gif['gif_url'],
                 'thumb_url': gif['poster_url'],
+                'caption' : gif['source_video_url']
             })
 
         return results_gifs
