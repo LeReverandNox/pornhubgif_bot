@@ -10,7 +10,7 @@ RUN pip install pipenv
 RUN pip install --no-cache-dir gunicorn gevent
 
 ADD Pipfile /app
-ADD Pipefile.lock /app
+ADD Pipfile.lock /app
 RUN pipenv install --system --deploy
 
 ADD src /app
