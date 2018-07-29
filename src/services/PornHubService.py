@@ -12,10 +12,11 @@ class PornHubService(object):
         if os.getenv('ENVIRONMENT') == 'dev': sys.stdout.write('[DEBUG] Searching GIFs on Pornhub for query={} and page={}\n'.format(query, page))
 
         try:
+            s = r.session()
             if query:
-                res = r.get(self._url + '/gifs/search?search={}&page={}'.format(query, page))
+                res = s.get(self._url + '/gifs/search?search={}&page={}'.format(query, page))
             else:
-                res = r.get(self._url + '/gifs?page={}'.format(page))
+                res = s.get(self._url + '/gifs?page={}'.format(page))
 
             body = res.content
             soup = bs(body, 'html.parser')
