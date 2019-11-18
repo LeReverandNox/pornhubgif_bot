@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!python3
 
 import requests as r
 import os, sys, argparse
