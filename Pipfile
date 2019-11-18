@@ -19,7 +19,7 @@ python-dotenv = "==0.8.2"
 requests = "==2.20.0"
 six = "==1.11.0"
 tornado = "==5.0.1"
-"urllib3" = "==1.22"
+urllib3 = "==1.24.2"
 wrapt = "==1.10.11"
 
 [dev-packages]
