@@ -19,7 +19,7 @@ class PornHubService(object):
             soup = bs(body, 'html.parser')
             video_elements = soup.find_all('video', {'class': 'gifVideo'})
 
-            poster_urls = [url for url in map(lambda element: element.attrs.get('poster'), video_elements)]
+            poster_urls = [url for url in map(lambda element: element.attrs.get('data-poster'), video_elements)]
             video_urls = [url for url in map(lambda element: element.attrs.get('data-mp4'), video_elements)]
             gif_urls = [url for url in map(lambda url: url.replace('.mp4', '.gif'), video_urls)]
 
