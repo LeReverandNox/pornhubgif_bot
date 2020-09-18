@@ -9,7 +9,7 @@ RUN pip install pipenv
 
 ADD Pipfile /app
 ADD Pipfile.lock /app
-RUN pipenv install
+RUN pipenv install --deploy --system
 
 ADD src /app
 ADD docker/run.sh /root
