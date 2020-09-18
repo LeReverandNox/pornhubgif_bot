@@ -5,11 +5,11 @@ WORKDIR /app
 RUN apk update && \
     apk add alpine-sdk
 
-RUN pip install --no-cache-dir gunicorn gevent pipenv
+RUN pip install pipenv
 
 ADD Pipfile /app
 ADD Pipfile.lock /app
-RUN pipenv install --system --deploy
+RUN pipenv install
 
 ADD src /app
 ADD docker/run.sh /root
