@@ -1,0 +1,16 @@
+version: "3"
+services:
+  bot:
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      # Force the service port
+      - traefik.http.services.$ROUTER.loadbalancer.server.port=8080
+      # HTTPS
+      - traefik.http.routers.$ROUTER-https.entrypoints=https
+      - traefik.http.routers.$ROUTER-https.rule=Host(`$HOST`)
+networks:
+  proxy:
+    external: true
